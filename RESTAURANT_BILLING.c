@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAX_ITEMS 50
 #define MAX_NAME_LEN 50
@@ -57,6 +58,12 @@ void generateBillFooter(float total) {
     printf("\n---------------------------------------\n");
 }
 
+void getCurrentDate(char date[MAX_DATE_LEN]) {
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    sprintf(date, "%02d/%02d/%d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+}
+
 int main() {
     int opt, n;
     struct orders ord;
@@ -97,7 +104,7 @@ int main() {
                 printf("\nPlease enter the name of the customer:\t");
                 fgets(ord.customer, MAX_NAME_LEN, stdin);
                 ord.customer[strcspn(ord.customer, "\n")] = 0; // Remove trailing newline
-                strcpy(ord.date, _DATE_);
+                getCurrentDate(ord.date);
                 printf("\nPlease enter the number of items:\t");
                 scanf("%d", &n);
                 ord.numOfItems = n;
